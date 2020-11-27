@@ -1,0 +1,27 @@
+name: Build & Deploy
+# Run this workflow every time a new commit pushed to your repository
+on:
+  push:
+    branches:
+      - master
+  # Set the job key. The key is displayed as the job name
+  # when a job name is not provided
+jobs:
+  # Name the Job
+  build-and-deploy:
+    # Set the type of machine to run on
+    runs-on: ubuntu-latest
+    steps:
+      # Checks out a copy of your repository on the ubuntu-latest machine
+      - name: Checkout
+        uses: actions/checkout@master
+        # Runs the Super-Linter action
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@master
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BASE_BRANCH: master # The branch the action should deploy from.
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: _site # The folder the action should deploy.
+          BUILD_SCRIPT: npm install && npm run build # The build script the action should run prior to deploying.
+
